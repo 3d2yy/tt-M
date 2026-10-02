@@ -11,9 +11,9 @@ class Host:
 
     async def tick(self):
         self.dut.clk.value = 0
-        await Timer(10, units='ns')
+        await Timer(50, units='ns')
         self.dut.clk.value = 1
-        await Timer(10, units='ns')
+        await Timer(50, units='ns')
 
     @property
     def status(self):
@@ -52,10 +52,10 @@ class Host:
 
     async def result(self):
         self.dut.uio_in.value = 0
-        await Timer(1, units='ns')
+        await Timer(50, units='ns')
         low = int(self.dut.uo_out.value)
         self.dut.uio_in.value = 0x10
-        await Timer(1, units='ns')
+        await Timer(50, units='ns')
         word = low | int(self.dut.uo_out.value) << 8
         self.dut.uio_in.value = 0
         return word - 65536 if word & 0x8000 else word
