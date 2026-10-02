@@ -15,5 +15,8 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Install GHDL for VHDL source discovery
+        run: sudo apt-get update && sudo apt-get install -y ghdl
+
       - name: Build docs
         uses: TinyTapeout/tt-gds-action/docs@ttsky26d

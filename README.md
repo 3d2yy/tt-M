@@ -12,7 +12,7 @@ ASIC digital en VHDL para buscar patrones cortos en muestras de señales. Calcul
 
 Lee [el diseño explicado paso a paso](docs/diseno.md) y luego [el protocolo de pines](docs/info.md).
 
-El código que se fabrica está en [src/tt_um_3d2yy_correlator.vhd](src/tt_um_3d2yy_correlator.vhd). `info.yaml` selecciona ese archivo; el antiguo archivo de celdas Wokwi no participa en el diseño HDL.
+El procesamiento está en [src/tt_um_3d2yy_correlator.vhdl](src/tt_um_3d2yy_correlator.vhdl). `info.yaml` selecciona ese archivo y Tiny Tapeout lo convierte automáticamente con GHDL. La extensión `.vhdl` es necesaria para que el flujo lo reconozca. El antiguo archivo de celdas Wokwi no participa en el diseño HDL.
 
 ## Verificación local
 

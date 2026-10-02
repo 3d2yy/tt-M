@@ -14,7 +14,7 @@ VERILOG_SOURCES += $(CURDIR)/gate_level_netlist.v
 SIM_BUILD := sim_build/gl
 else
 VERILOG_SOURCES := $(REPO_ROOT)/build/correlator.v
-$(REPO_ROOT)/build/correlator.v: $(REPO_ROOT)/src/tt_um_3d2yy_correlator.vhd $(REPO_ROOT)/scripts/build_verilog.sh
+$(REPO_ROOT)/build/correlator.v: $(REPO_ROOT)/src/tt_um_3d2yy_correlator.vhdl $(REPO_ROOT)/scripts/build_verilog.sh
 	bash $(REPO_ROOT)/scripts/build_verilog.sh
 endif
 VERILOG_SOURCES += $(CURDIR)/tb.v
