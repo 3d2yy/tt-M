@@ -1,0 +1,29 @@
+name: test
+on: [push, workflow_dispatch]
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install HDL tools
+        run: sudo apt-get update && sudo apt-get install -y ghdl iverilog yosys
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - run: pip install -r test/requirements.txt
+      - name: Compile VHDL and simulate the converted Verilog
+        run: |
+          bash scripts/build_verilog.sh
+          make -C test
+          python scripts/check_results.py test/results.xml
+      - name: Synthesis sanity check
+        run: |
+          yosys -Q -T -p 'read_verilog build/correlator.v; synth -top tt_um_3d2yy_correlator; check -assert; stat' > build/synthesis.txt
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: correlator-tests
+          path: |
+            test/results.xml
+            test/tb.vcd
+            build/synthesis.txt

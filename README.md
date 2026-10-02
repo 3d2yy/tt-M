@@ -1,39 +1,35 @@
-![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/wokwi_test/badge.svg) ![](../../workflows/fpga/badge.svg)
+# Correlador programable para Tiny Tapeout
 
-# Tiny Tapeout Wokwi Project Template
+ASIC digital en VHDL para buscar patrones cortos en muestras de señales. Calcula un FIR de ocho posiciones usando una unidad compartida de multiplicación y acumulación.
 
-- [Read the documentation for project](docs/info.md)
+- Muestras con signo de 8 bits; pesos configurables con signo de 4 bits.
+- Acumulación exacta de 15 bits, resultado leído como entero con signo de 16 bits.
+- Umbral positivo configurable; salida `HIT` inhibida durante las primeras siete muestras.
+- Ocho ciclos de cálculo después de aceptar cada muestra; intervalo mínimo de nueve ciclos entre muestras.
+- Objetivo inicial: un tile y reloj de 10 MHz. La implementación física determina si se cumplen ambos.
 
-## What is Tiny Tapeout?
+## Empieza aquí
 
-Tiny Tapeout is an educational project that aims to make it easier and cheaper than ever to get your digital and analog designs manufactured on a real chip.
+Lee [el diseño explicado paso a paso](docs/diseno.md) y luego [el protocolo de pines](docs/info.md).
 
-To learn more and get started, visit https://tinytapeout.com.
+El código que se fabrica está en [src/tt_um_3d2yy_correlator.vhd](src/tt_um_3d2yy_correlator.vhd). `info.yaml` selecciona ese archivo; el antiguo archivo de celdas Wokwi no participa en el diseño HDL.
 
-## Wokwi Projects
+## Verificación local
 
-Edit the [info.yaml](info.yaml) and change the `wokwi_id` to the ID of your Wokwi project. You can find the ID in the URL of your project, it's the big number after `wokwi.com/projects/`.
+En Ubuntu, instala `ghdl`, `iverilog`, `yosys`, `make` y los paquetes de `test/requirements.txt`.
 
-The GitHub action will automatically fetch the digital netlist from Wokwi and build the ASIC files.
+```sh
+python -m pip install -r test/requirements.txt
+bash scripts/build_verilog.sh
+make -C test
+python scripts/check_results.py test/results.xml
+python scripts/demo.py
+```
 
-## Enable GitHub actions to build the results page
+GHDL convierte el VHDL a Verilog y cocotb prueba ese circuito contra un modelo entero independiente. La conversión no crea un segundo diseño mantenido a mano. El flujo de GitHub vuelve a ejecutar la simulación y la síntesis. El flujo GDS del repositorio intenta la implementación física y el precheck.
 
-- [Enabling GitHub Pages](https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part)
+La demo genera una señal conocida con ruido reproducible y escribe `build/demo.csv`. Verifica la operación del correlador; no demuestra detección de descargas parciales.
 
-## Resources
+## Estado
 
-- [FAQ](https://tinytapeout.com/faq/)
-- [Digital design lessons](https://tinytapeout.com/digital_design/)
-- [Learn how semiconductors work](https://tinytapeout.com/siliwiz/)
-- [Join the community](https://tinytapeout.com/discord)
-- [Build your design locally](https://www.tinytapeout.com/guides/local-hardening/)
-
-## What next?
-
-- [Submit your design to the next shuttle](https://app.tinytapeout.com/).
-- Edit [this README](README.md) and explain your design, how it works, and how to test it.
-- Share your project on your social network of choice:
-  - LinkedIn [#tinytapeout](https://www.linkedin.com/search/results/content/?keywords=%23tinytapeout) [@TinyTapeout](https://www.linkedin.com/company/100708654/)
-  - Mastodon [#tinytapeout](https://chaos.social/tags/tinytapeout) [@matthewvenn](https://chaos.social/@matthewvenn)
-  - X (formerly Twitter) [#tinytapeout](https://twitter.com/hashtag/tinytapeout) [@tinytapeout](https://twitter.com/tinytapeout)
-  - Bluesky [@tinytapeout.com](https://bsky.app/profile/tinytapeout.com)
+Primera versión experimental para aprendizaje de arquitectura digital y ASIC. La frecuencia indicada es un objetivo de implementación, no una medición del silicio. Consulta los resultados del flujo GDS y del precheck antes de seleccionar un commit para fabricación.

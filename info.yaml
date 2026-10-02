@@ -1,48 +1,37 @@
-# Tiny Tapeout project information (Wokwi project)
 project:
-  wokwi_id: "476710238548285441" # Set this to the ID of your Wokwi project (the number from the project's URL)
-  title: "porqueria" # Project title
-  author: "r0nin11.exe" # Your name
-  discord: "" # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
-  description: "Nada" # One line description of what your project does
-  language: "Wokwi" # other examples include SystemVerilog, Amaranth, VHDL, etc
-  clock_hz: 55 # Clock frequency in Hz (or 0 if not applicable)
-
-  # How many tiles your design occupies? A single tile is about 167x108 uM.
-  tiles: "1x1" # Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 6x2 or 8x2
-
-# The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
-# This section is for the datasheet/website. Use descriptive names (e.g., RX, TX, MOSI, SCL, SEG_A, etc.).
+  title: Programmable signal correlator
+  author: r0nin11.exe
+  discord: ''
+  description: Eight-tap signed FIR correlator with configurable weights and threshold
+  language: VHDL
+  clock_hz: 10000000
+  tiles: 1x1
+  top_module: tt_um_3d2yy_correlator
+  source_files:
+  - tt_um_3d2yy_correlator.vhd
 pinout:
-  # Inputs
-  ui[0]: ""
-  ui[1]: ""
-  ui[2]: ""
-  ui[3]: ""
-  ui[4]: ""
-  ui[5]: ""
-  ui[6]: ""
-  ui[7]: ""
-
-  # Outputs
-  uo[0]: ""
-  uo[1]: ""
-  uo[2]: ""
-  uo[3]: ""
-  uo[4]: ""
-  uo[5]: ""
-  uo[6]: ""
-  uo[7]: ""
-
-  # Bidirectional pins
-  uio[0]: ""
-  uio[1]: ""
-  uio[2]: ""
-  uio[3]: ""
-  uio[4]: ""
-  uio[5]: ""
-  uio[6]: ""
-  uio[7]: ""
-
-# Do not change!
+  ui[0]: DATA[0]
+  ui[1]: DATA[1]
+  ui[2]: DATA[2]
+  ui[3]: DATA[3]
+  ui[4]: DATA[4]
+  ui[5]: DATA[5]
+  ui[6]: DATA[6]
+  ui[7]: DATA[7]
+  uo[0]: RESULT_BYTE[0]
+  uo[1]: RESULT_BYTE[1]
+  uo[2]: RESULT_BYTE[2]
+  uo[3]: RESULT_BYTE[3]
+  uo[4]: RESULT_BYTE[4]
+  uo[5]: RESULT_BYTE[5]
+  uo[6]: RESULT_BYTE[6]
+  uo[7]: RESULT_BYTE[7]
+  uio[0]: STROBE
+  uio[1]: OPCODE[0]
+  uio[2]: OPCODE[1]
+  uio[3]: OPCODE[2]
+  uio[4]: READ_HIGH
+  uio[5]: READY
+  uio[6]: RESULT_VALID
+  uio[7]: HIT
 yaml_version: 6
